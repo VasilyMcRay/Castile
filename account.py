@@ -1,3 +1,4 @@
+import asyncio
 import base64
 import json
 import time
@@ -8,7 +9,7 @@ from loguru import logger
 from base import Base
 from wallet import Wallet
 from methods import Methods
-
+from tasks import Tasks
 
 class Account(Base):
     """
@@ -25,7 +26,7 @@ class Account(Base):
             headers: dict | None,
             cookies: dict | None = None,
             authorization_key: str | None = None,
-            uid: str | None = None,
+            uid: int | None = None,
             private_key: str | None = None
     ):
         super().__init__(proxy=proxy, headers=headers, cookies=cookies)
@@ -37,6 +38,7 @@ class Account(Base):
             self.headers['authorization'] = f'Bearer {authorization_key}'
         self.authorization_key = authorization_key
         self.tw_account = twitter.Account(auth_token=twitter_auth)
+        self.tasks = Tasks()
 
     def __str__(self):
         return f"""
@@ -205,3 +207,37 @@ uid: {self.uid}\nprivate_key: {self.wallet.account.private_key}
         if user_info.get('data', {}).get('twitter_id') == 0:
             logger.info('twitter not connected')
             await self.verify_castile_twitter()
+
+    async def verify_task_by_hash(self, tx_hash: str):
+        url = f'https://api.mainnet.aptoslabs.com/v1/transactions/by_hash/{tx_hash}'
+        data = await self.get_base_session(Methods.GET, url=url)
+        logger.info(f'Transaction with hash {tx_hash} verified')
+        return data
+
+    async def get_task_info(self, task_id: str, tx_hash: str = ''):
+
+        url = 'https://castile.world/gapi/task/v1/task'
+        params = {
+            'id': task_id,
+            'params': tx_hash,
+        }
+
+        data = await self.get_base_session(Methods.GET, url=url, params=params)
+        logger.info(f'task info {task_id}: {data}')
+
+    async def get_task_reward(self, task_id: str):
+        url = 'https://castile.world/gapi/task/v1/reward'
+        params = {
+            'id': task_id,
+        }
+        data = await self.get_base_session(Methods.GET, url=url, params=params)
+        logger.info(f'task reward {task_id}: {data}')
+
+    async def complete_all_tasks(self):
+        for task_id in self.tasks.ids:
+            try:
+                await self.get_task_info(str(task_id))
+                await self.get_task_reward(str(task_id))
+                await asyncio.sleep(1.5)
+            except Exception as error:
+                print(error)

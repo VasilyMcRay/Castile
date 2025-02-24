@@ -17,20 +17,24 @@ async def main():
     #     uid='374164'
     # )
     account = Account(
-        mail='gl12312@yandex.ru',
+        mail='walletqq12@yandex.ru',
         password='A12fsaiki43fj',
         proxy='user196901:pzik08@80.91.209.248:5546',
         headers=HEADERS,
-        twitter_auth='9db396881eb200fb18357fe4862c194cae402b94',
-        private_key='0xaa536b716fda724eec8f32bbdb519c48c12b0a6e833881b77969c8dde58c270c'
+        twitter_auth='d9ad72363d89603f7936e1fad532afed650f604f',
+        private_key='0x45b9daa122b1aaf9454df6558a8dcac6cf980c91c9e00147969f7e78fc958330',
     )
-    await account.check_complete_base_actions()
+    await account.login_account()
+    await account.wallet.make_daily_transaction()
+
+    # await account.check_complete_base_actions()
+    # await account.complete_all_tasks()
+    # await asyncio.sleep(5)
     # await account.get_points_info()
     # print(account)
     # await account.get_user_info()
     # register_result = await account.register_account()
     # print(register_result)
-    # await asyncio.sleep(1)
     # print(await account.bind_wallet())
     # await asyncio.sleep(5)
     # print(await account.verify_castile_twitter())

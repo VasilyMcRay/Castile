@@ -1,3 +1,6 @@
+import table
+
+
 def format_proxy(proxy: str, protocol: str = 'http') -> str:
     """
     Функция для форматирования прокси в http или socks5.
@@ -38,3 +41,5 @@ def format_proxy(proxy: str, protocol: str = 'http') -> str:
         formatted_proxy = f"{protocol}://{ip}:{port}"
 
     return formatted_proxy
+
+
