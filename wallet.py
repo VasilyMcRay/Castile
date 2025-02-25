@@ -21,9 +21,10 @@ class Wallet:
         "https://faucet.devnet.aptoslabs.com",
     )
 
-    def __init__(self, private_key: str | None = None):
+    def __init__(self, id: int, private_key: str | None = None):
         self.rest_client = RestClient(self.NODE_URL)
         # self.faucet_client = FaucetClient(self.FAUCET_URL, self.rest_client)
+        self.id = id
         if private_key:
             self.account = Account.load_key(private_key)
         else:

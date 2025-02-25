@@ -1,9 +1,10 @@
 import csv
 
+from loguru import logger
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from table.models import AccountCSV, WalletCsv
+from table.models import AccountCSV
 from db.models import AccountModel, WalletModel, Base
 
 
@@ -76,17 +77,18 @@ class Import:
             db_objects.append(db_account)
         return db_objects
 
-# todo: Вынести в отдельную функцию
-objects_for_db = Import.create_db_object()
-engine = create_engine('sqlite:///db.db')
-Base.metadata.create_all(engine)
-with Session(engine) as session:
+    @staticmethod
+    def db_objects():
+        """
+        Добавление аккаунтов в БД.
+        Returns:
 
-
-    new_account = AccountModel(mail='test21@yandex.ru', password='test', twitter_auth='test_tw_auth')
-    new_wallet = WalletModel(address='test3_address')
-
-    new_account.wallet = new_wallet
-
-    session.add(new_account)
-    session.commit()
+        """
+        objects_for_db = Import.create_db_object()
+        engine = create_engine('sqlite:///db.db')
+        Base.metadata.create_all(engine)
+        with Session(engine) as session:
+            for db_obj in objects_for_db:
+                session.add(db_obj)
+            session.commit()
+        logger.info(f'Аккаунты успешно добавлены в базу данных')

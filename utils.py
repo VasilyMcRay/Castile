@@ -1,5 +1,3 @@
-import table
-
 
 def format_proxy(proxy: str, protocol: str = 'http') -> str:
     """

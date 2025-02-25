@@ -19,7 +19,7 @@ class Base:
         self.headers = headers
         self.cookies = cookies
 
-    async def get_base_session(self, method: str, url: str, is_verify_twitter: bool = False, **kwargs,) -> dict | None:
+    async def get_base_session(self, method: str, url: str, is_verify_twitter: bool = False, **kwargs,) -> dict:
         """
         Функция инициализации базововой сессии.
         :return:
@@ -30,7 +30,6 @@ class Base:
         if method.upper() == Methods.GET:
             async with AsyncSession(proxy=self.proxy, headers=self.headers, cookies=self.cookies) as session:
                 response = await session.get(url=url, params=params)
-                # if response.status_code == '200':
                 if is_verify_twitter:
                     return response
                 return response.json()
@@ -38,5 +37,4 @@ class Base:
         elif method.upper() == Methods.POST:
             async with AsyncSession(proxy=self.proxy, headers=self.headers, cookies=self.cookies) as session:
                 response = await session.post(url=url, json=json_data)
-                # if response.status_code == '200':
                 return response.json()
