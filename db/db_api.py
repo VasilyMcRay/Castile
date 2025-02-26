@@ -109,11 +109,11 @@ def load_accounts(is_register: bool = False, is_connect_social: bool = False) ->
         elif is_connect_social:
             accounts: list[AccountModel] = session.query(AccountModel).filter(AccountModel.twitter_connection_status == False).all()
 
-        unregistered_account_ids = [account.id for account in accounts]
-        unregistered_wallets: list[WalletModel] = session.query(WalletModel).filter(WalletModel.id.in_(unregistered_account_ids)).all()
+        account_ids = [account.id for account in accounts]
+        account_wallets: list[WalletModel] = session.query(WalletModel).filter(WalletModel.id.in_(account_ids)).all()
 
         if accounts:
-            return accounts, unregistered_wallets
+            return accounts, account_wallets
         else:
             logger.info("Нет не зарегистрированных аккаунтов.")
             return None
