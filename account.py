@@ -96,7 +96,6 @@ uid: {self.uid}\nprivate_key: {self.wallet.account.private_key}
 
         data = await self.get_base_session(Methods.POST, url=url, json=json_data)
         logger.info('Успешно зарегестрировал аккаунт')
-        self.write_data(data['data'])
         return data
 
     async def login_account(self) -> dict:
@@ -115,15 +114,14 @@ uid: {self.uid}\nprivate_key: {self.wallet.account.private_key}
             logger.info(f'Got data after login: {data}')
             if data.get('status', {}).get('msg') == 'User does not exist':
                 data = await self.register_account()
-                if data['status']['msg'] == 'Registration successful':
-                    db_api.update_account_info(
-                        account_id=self.id,
-                        uid=data['data']['uid'],
-                        is_registered=True,
-                        new_authorization_key=data['data']['auth'],
-                    )
+            if data['status']['msg'] == 'Registration successful' or data['status']['msg'] == 'Login successful':
+                db_api.update_account_info(
+                    account_id=self.id,
+                    uid=data['data']['uid'],
+                    is_registered=True,
+                    new_authorization_key=data['data']['auth'],
+                )
             logger.info(f'data {data}')
-            # self.write_data(data['data'])
             return data
         except Exception as error:
             logger.error(error)
