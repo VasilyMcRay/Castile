@@ -1,2 +1,4 @@
 venv/
 db.db
+.idea
+__pychache__
