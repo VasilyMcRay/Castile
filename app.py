@@ -99,19 +99,7 @@ async def main():
             if action == 1:
                 Import.db_objects()
 
-            elif action == 2:
-                await make_base_action(action)
-
-            elif action == 3:
-                await make_base_action(action)
-
-            elif action == 4:
-                await make_base_action(action)
-
-            elif action == 5:
-                await make_base_action(action)
-
-            elif action == 6:
+            elif 2 <= action <= 6:
                 await make_base_action(action)
 
             elif action == 7:
