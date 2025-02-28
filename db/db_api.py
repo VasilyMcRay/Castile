@@ -99,15 +99,15 @@ def load_accounts(is_register: bool = False, is_connect_social: bool = False) ->
         is_connect_social: Импортировать ли аккаунты для привязки твиттера.
 
     Returns:
-        unregistered_accounts:
+        accounts, account_wallets:
     """
     try:
         if is_register:
             accounts: list[AccountModel] = session.query(AccountModel).filter(AccountModel.is_registered == False).all()
-        elif is_register is False:
-            accounts: list[AccountModel] = session.query(AccountModel).filter(AccountModel.is_registered == True).all()
         elif is_connect_social:
             accounts: list[AccountModel] = session.query(AccountModel).filter(AccountModel.twitter_connection_status == False).all()
+        elif is_register is False:
+            accounts: list[AccountModel] = session.query(AccountModel).filter(AccountModel.is_registered == True).all()
 
         account_ids = [account.id for account in accounts]
         account_wallets: list[WalletModel] = session.query(WalletModel).filter(WalletModel.id.in_(account_ids)).all()

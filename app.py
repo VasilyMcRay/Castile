@@ -37,7 +37,6 @@ def initialize_accounts(is_register: bool = False, is_social_connection: bool = 
             private_key=model_wallet.private_key,
             is_registered=model_account.is_registered
         )
-        print(account.proxy)
         accounts.append(account)
     return accounts
 
@@ -103,19 +102,19 @@ async def main():
                 Import.db_objects()
 
             elif action == 2:
-                await make_base_action(action=2)
+                await make_base_action(action)
 
             elif action == 3:
-                await make_base_action(action=3)
+                await make_base_action(action)
 
             elif action == 4:
-                await make_base_action(action=4)
+                await make_base_action(action)
 
             elif action == 5:
-                await make_base_action(action=5)
+                await make_base_action(action)
 
             elif action == 6:
-                await make_base_action(action=6)
+                await make_base_action(action)
 
             elif action == 7:
                 pass
