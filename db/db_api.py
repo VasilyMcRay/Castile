@@ -3,9 +3,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
 from db.models import AccountModel, WalletModel
-    #sqlite:///../db.db
+
 engine = create_engine('sqlite:///db.db')
 session = Session(engine)
+
 
 def update_account_info(
         account_id: int,
@@ -90,6 +91,7 @@ def update_wallet_info(
         logger.error(f"Произошла ошибка: {e}")
     finally:
         session.close()
+
 
 def load_accounts(is_register: bool = False, is_connect_social: bool = False) -> tuple[list[AccountModel], list[WalletModel]] | None:
     """

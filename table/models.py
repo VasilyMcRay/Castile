@@ -7,6 +7,7 @@ class AccountCSV:
     CSV модель аккаунта.
     """
     header = ['mail', 'password', 'twitter_auth', 'proxy', 'headers', 'cookies', 'authorization_key', 'uid', 'private_key']
+
     def __init__(
             self, mail: str,
             password: str,

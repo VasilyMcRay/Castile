@@ -1,5 +1,6 @@
 from fake_useragent import FakeUserAgent
 
+
 def get_headers() -> dict:
     headers = {
         'accept': 'application/json, text/plain, */*',

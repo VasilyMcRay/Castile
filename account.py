@@ -13,12 +13,14 @@ from methods import Methods
 from tasks import Tasks
 from db import db_api
 
+
 class Account(Base):
     """
     Класс Castile аккуанта.
     """
     wallet: Wallet
     tw_account: twitter.Account
+
     def __init__(
             self,
             id: int,

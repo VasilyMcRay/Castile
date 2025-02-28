@@ -42,4 +42,3 @@ class WalletModel(Base):
     private_key: Mapped[str] = mapped_column(default=None, server_default='')
     wallet_connection_status: Mapped[bool] = mapped_column(default=False, server_default='0')
     account: Mapped['AccountModel'] = relationship(back_populates='wallet', cascade="all, delete-orphan")
-

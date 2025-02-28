@@ -3,6 +3,7 @@ from curl_cffi.requests import AsyncSession
 from utils import format_proxy
 from methods import Methods
 
+
 class Base:
     """
     Базовый класс для создания сессий.
@@ -10,6 +11,7 @@ class Base:
     proxy: str
     headers: dict | None
     cookies: dict | None
+
     def __init__(self, proxy: str | None, headers: dict | None = None, cookies: dict | None = None):
         if proxy:
             self.proxy = format_proxy(proxy)

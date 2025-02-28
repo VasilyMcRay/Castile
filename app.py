@@ -2,10 +2,11 @@ import asyncio
 
 from loguru import logger
 
-from account import  Account
+from account import Account
 from Import import Import
 from db.db_api import load_accounts, update_wallet_info
 from data.data import get_headers
+
 
 def initialize_accounts(is_register: bool = False, is_social_connection: bool = False) -> list[Account]:
     """
@@ -82,9 +83,6 @@ async def make_base_action(action: int):
             logger.error(f'Caught ValueError in task: {completed_task}')
 
 
-
-
-
 async def main():
     while True:
         print('''  Select the action:
@@ -122,7 +120,6 @@ async def main():
             elif action == 8:
                 logger.info('Программа завершена')
                 break
-
 
         except KeyboardInterrupt:
             print()
